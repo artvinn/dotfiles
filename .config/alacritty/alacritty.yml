@@ -1,3 +1,5 @@
+hide_cursor_when_typing: true
+
 window:
   dimensions:
     columns: 100
@@ -13,16 +15,11 @@ window:
 
   dynamic_padding: false
 
-font:
-  size: 7
-
-  offset:
-    x: 1
-    y: 1
-
 scrolling:
   history: 10000
   auto_scroll: false
+  multiplier: 3
+  faux_multiplier: 3
 
 mouse_bindings:
   - { mouse: Right, action: PasteSelection }
@@ -31,6 +28,26 @@ shell:
   program: /bin/zsh
   args:
     - --login
+
+font:
+  size: 7
+
+  offset:
+    x: 1
+    y: 1
+
+  normal:
+    family: Hack
+    style: Regular
+
+  bold:
+    family: Hack
+    style: Bold
+
+  italic:
+    family: Hack
+    style: Italic
+    
 
 # Colors (Snazzy)
 colors:
