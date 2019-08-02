@@ -11,6 +11,10 @@ SAVEHIST=$HISTSIZE
 
 export EDITOR=/usr/bin/vim
 
+# export locales
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+
 plugins=(
   z
   git

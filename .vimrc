@@ -65,15 +65,6 @@ set laststatus=2
 set showmode
 set showcmd
 
-" Searching
-nnoremap / /\v
-vnoremap / /\v
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-
 " Color scheme (terminal)
 set t_Co=256
 set background=dark
