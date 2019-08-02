@@ -1,0 +1,6 @@
+map <Space> <Leader>
+
+inoremap kj <esc>
+
+" remap file save to Leader + s
+nnoremap <leader>s :update<cr>
