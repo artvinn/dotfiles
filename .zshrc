@@ -23,6 +23,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-completions
+  zsh-nvm
 )
 
 # reload completion
