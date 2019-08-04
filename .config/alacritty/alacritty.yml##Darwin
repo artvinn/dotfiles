@@ -19,12 +19,6 @@ scrolling:
   multiplier: 3
   faux_multiplier: 3
 
-mouse:
-  hide_when_typing: true
-
-mouse_bindings:
-  - { mouse: Right, action: PasteSelection }
-
 shell:
   program: /bin/zsh
   args:
