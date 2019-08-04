@@ -1,5 +1,3 @@
-hide_cursor_when_typing: true
-
 window:
   dimensions:
     columns: 100
@@ -20,6 +18,9 @@ scrolling:
   auto_scroll: false
   multiplier: 3
   faux_multiplier: 3
+
+mouse:
+  hide_when_typing: true
 
 mouse_bindings:
   - { mouse: Right, action: PasteSelection }
