@@ -19,6 +19,7 @@ plugins=(
   z
   git
   tmux
+  thefuck
   colored-man-pages
   zsh-autosuggestions
   zsh-syntax-highlighting
