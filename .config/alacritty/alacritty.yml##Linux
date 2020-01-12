@@ -13,6 +13,9 @@ window:
 
   dynamic_padding: false
 
+selection:
+  save_to_clipboard: true
+
 scrolling:
   history: 10000
   auto_scroll: false
