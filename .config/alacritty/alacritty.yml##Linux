@@ -18,7 +18,6 @@ selection:
 
 scrolling:
   history: 10000
-  auto_scroll: false
   multiplier: 3
 
 shell:
