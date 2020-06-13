@@ -12,13 +12,16 @@
 # disable titlebar
 for_window [class=".*"] border pixel 2
 
+for_window [instance="nannou"] floating enable, border pixel 0
+
 #gaps outer 5
 gaps inner 5
 gaps top 10
 gaps bottom 10
 
 # keyobard layout switching
-exec --no-startup-id "setxkbmap us,ee,ru -option 'grp:lalt_lshift_toggle'"
+# exec --no-startup-id "setxkbmap us,ee,ru -option 'grp:lalt_lshift_toggle' -option 'ctrl:swapcaps' -option 'altwin:swap_alt_win'"
+exec --no-startup-id "setxkbmap us,ee,ru -option 'ctrl:nocaps'"
 
 # set mod to windows key
 set $mod Mod4
@@ -65,7 +68,7 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
