@@ -1,4 +1,4 @@
-# i3 config file (v4)
+o i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 #
@@ -20,8 +20,7 @@ gaps top 10
 gaps bottom 10
 
 # keyobard layout switching
-# exec --no-startup-id "setxkbmap us,ee,ru -option 'grp:lalt_lshift_toggle' -option 'ctrl:swapcaps' -option 'altwin:swap_alt_win'"
-exec --no-startup-id "setxkbmap us,ee,ru -option 'ctrl:nocaps'"
+exec --no-startup-id "setxkbmap us,ee,ru -option 'grp:lalt_lshift_toggle' -option 'ctrl:swapcaps' -option 'altwin:swap_alt_win'"
 
 # set mod to windows key
 set $mod Mod4
@@ -47,15 +46,11 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Pulse Audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+# Alsamixer volume controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id "amixer set -c 1 Master 1db+ unmute"
+bindsym XF86AudioLowerVolume exec --no-startup-id "amixer set -c 1 Master 1db- unmute"
+bindsym XF86AudioMute exec --no-startup-id "amixer set -c 1 Master toggle"
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -74,7 +69,8 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show run -font "Hack 18"
+bindsym $mod+d exec --no-startup-id "rofi -show run -font 'Hack 16'"
+bindsym $mod+c exec --no-startup-id "rofi -show calc -modi calc -no-show-match -no-sort -terse -font 'Hack 16' > /dev/null"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -212,7 +208,8 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+exec --no-startup-id cadence-session-start --system-start
 exec_always --no-startup-id xrandr --output eDP1 --scale 1x1 --pos 0x0 --mode 2560x1440
 exec_always --no-startup-id xrandr --output DP1 --scale 1x1 --mode 2560x1440 --right-of eDP1
-exec --no-startup-id feh --bg-fill $HOME/wallhaven-q6qvjq.jpg
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id feh --bg-fill $HOME/wallhaven-q6qvjq.jpg

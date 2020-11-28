@@ -57,13 +57,11 @@ font-1 = Material Icons:pixelsize=24;9
 
 modules-left = i3
 modules-center = xwindow
-modules-right = xkeyboard xbacklight pulseaudio wlan date battery menu
+modules-right = xkeyboard xbacklight alsa wlan date battery menu
 
 tray-position = right
 tray-padding = 2
-;tray-background = #0063ff
 
-;wm-restack = bspwm
 ;wm-restack = i3
 
 ;override-redirect = true
@@ -216,6 +214,18 @@ type = internal/pulseaudio
 format-volume = <ramp-volume> <label-volume>
 ;label-volume =  %percentage%%
 label-volume-foreground = ${root.foreground}
+
+label-muted =  muted
+label-muted-foreground = #666
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+[module/alsa]
+type = internal/alsa
+master-soundcard = hw:1
+interval = 5
 
 label-muted =  muted
 label-muted-foreground = #666
