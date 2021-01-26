@@ -1,8 +1,8 @@
-source $HOME/.config/nvim/partials/plugins.vim
-
 if &compatible
   set nocompatible
 endif
+
+source $HOME/.config/nvim/partials/plugins.vim
 
 filetype plugin indent on
 syntax enable

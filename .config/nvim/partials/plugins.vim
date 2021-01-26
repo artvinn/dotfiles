@@ -1,8 +1,8 @@
 " Add the dein installation directory into runtimepath
-set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.config/nvim/dein')
-  call dein#begin('~/.config/nvim/dein')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
   " vim surround
   call dein#add('tpope/vim-surround')
@@ -10,7 +10,7 @@ if dein#load_state('~/.config/nvim/dein')
   " quick-scope
   call dein#add('unblevable/quick-scope')
 
-  call dein#add('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   if !exists('g:vscode')
     " Themes
