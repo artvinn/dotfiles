@@ -1,56 +1,74 @@
-let g:loaded_netrwPlugin = 1                                                    "Do not load netrw
+" shared settings between normal neovim and VSCode extension
+set gdefault
+set smartcase
+set ignorecase
+set nostartofline
+set lazyredraw
+set termguicolors
 
-set title                                                                       "change the terminal's title
-set number                                                                      "Line numbers are good
-set relativenumber                                                              "Show numbers relative to current line
-" set noshowmode                                                                  "Hide showmode because of the powerline plugin
-set gdefault                                                                    "Set global flag for search and replace
-set cursorline                                                                  "Highlight current line
-set smartcase                                                                   "Smart case search if there is uppercase
-set ignorecase                                                                  "case insensitive search
-set mouse=a                                                                     "Enable mouse usage
-set showmatch                                                                   "Highlight matching bracket
-set nostartofline                                                               "Jump to first non-blank character
-set timeoutlen=1000 ttimeoutlen=0                                               "Reduce Command timeout for faster escape and O
-set fileencoding=utf-8                                                          "Set utf-8 encoding on write
-set nowrap                                                                      "Disable word wrap by default
-set linebreak                                                                   "Wrap lines at convenient points
-set list                                                                        "Enable listchars
-set lazyredraw                                                                  "Do not redraw on registers and macros
-set hidden                                                                      "Hide buffers in background
-set splitright                                                                  "Set up new vertical splits positions
-set splitbelow                                                                  "Set up new horizontal splits positions
-set inccommand=nosplit                                                          "Show substitute changes immidiately in separate split
-set hlsearch                                                                    "Highlight search results
-" set grepprg=rg\ --smart-case\ --vimgrep                                         "Use ripgrep for grepping
-set updatetime=300                                                              "Cursor hold timeout
-set shortmess+=c                                                                "Disable completion menu messages in command line
-set undofile                                                                    "Keep undo history across sessions, by storing in file
-set history=1000                                                                "Remember more commands and search history
-set noswapfile                                                                  "Disable creating swap file
-set nobackup                                                                    "Disable saving backup file
-set nowritebackup                                                               "Disable writing backup file
-set fillchars+=vert:│                                                           "Use vertical line for vertical split
-set breakindent                                                                 "Preserve indent on line wrap
-set smartindent                                                                 "Use smarter indenting
-set expandtab                                                                   "Use spaces for indentation
-set shiftwidth=2                                                                "Use 2 spaces for indentation
-set nofoldenable                                                                "Disable folding by default
-set colorcolumn=80                                                              "Highlight 80th column for easier wrapping
-set foldmethod=syntax                                                           "When folding enabled, use syntax method
-set diffopt+=vertical                                                           "Always use vertical layout for diffs
-set cmdheight=2                                                                 "Give more space for displaying messages.
-set visualbell                                                                  "Don't beep
-set noerrorbells                                                                "Don't beep
+" Map leader switch to space
+nnoremap <SPACE> <Nop>
+let mapleader = " "
 
-set scrolloff=8                                                                 "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
-set sidescroll=5
-set pyxversion=3                                                                "Always use python 3
+" source vim config
+nnoremap <Leader>vc :source ~/.config/nvim/init.vim<CR>:echo "Reloaded .vimrc"<CR>
 
+" reset highlight
+nnoremap <leader>h :noh<CR>
 
-autocmd BufWritePre * %s/\s\+$//e                                               "Auto-remove trailing spaces
+" quck-scope plugin highlight on button press
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
+" highlight yanked area
+augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+augroup END
 
+if exists('g:vscode')
+  " VSCode extension
 
+  " Commentary
+  xmap gc  <Plug>VSCodeCommentary
+  nmap gc  <Plug>VSCodeCommentary
+  omap gc  <Plug>VSCodeCommentary
+  nmap gcc <Plug>VSCodeCommentaryLine
 
+  highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+  " keybindings
+  nnoremap <leader>s <Cmd>call VSCodeNotify('workbench.action.files.save')<CR>
+else
+  " ordinary neovim
+
+  set title
+  set cursorline
+  set number
+  set relativenumber
+  set showmatch
+  set mouse=a
+  set encoding=utf-8
+  set fileencoding=utf-8
+  set nowrap
+  set linebreak
+  set autoindent
+  set smartindent
+  set expandtab
+  set shiftwidth=2
+  set pyxversion=3
+  " Map jj to ESC
+  imap jj <Esc>
+  " Map Control-C to ESC
+  imap <C-c> <Esc>
+  " Alternate way to save
+  nnoremap <leader>s :w<CR>
+
+  " PLUGINS
+
+  " autocomplete
+  let g:deoplete#enable_at_startup = 1
+  " <TAB>: completion.
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+endif

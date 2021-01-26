@@ -1,32 +1,38 @@
-call plug#begin('~/.local/share/nvim/plugged')
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 
-" color scheme
-Plug 'lifepillar/vim-gruvbox8', { 'as': 'gruvbox8' }
-Plug 'drewtempelmeyer/palenight.vim'
+if dein#load_state('~/.config/nvim/dein')
+  call dein#begin('~/.config/nvim/dein')
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " vim surround
+  call dein#add('tpope/vim-surround')
 
-" highlight yank area
-Plug 'machakann/vim-highlightedyank'
+  " quick-scope
+  call dein#add('unblevable/quick-scope')
 
-" fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+  call dein#add('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
 
-" ALE linting
-Plug 'dense-analysis/ale'
+  if !exists('g:vscode')
+    " Themes
+    call dein#add('joshdick/onedark.vim')
+    " Better Syntax Support
+    call dein#add('sheerun/vim-polyglot')
+    " Powerline
+    call dein#add('vim-airline/vim-airline')
+    call dein#add('vim-airline/vim-airline-themes')
 
-" commenting
-Plug 'tpope/vim-commentary'
+    call dein#add('Shougo/deoplete.nvim')
+    if !has('nvim')
+      call dein#add('roxma/nvim-yarp')
+      call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+  endif
 
-" surround
-Plug 'tpope/vim-surround'
+  call dein#end()
+  call dein#save_state()
+endif
 
-" status line
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-call plug#end()
-
-color palenight
-
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
