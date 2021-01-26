@@ -5,13 +5,22 @@ set ignorecase
 set nostartofline
 set lazyredraw
 set termguicolors
+set backspace=indent,eol,start
+set nostartofline " Make j/k respect the columns
 
 " Map leader switch to space
 nnoremap <SPACE> <Nop>
 let mapleader = " "
 
 " source vim config
-nnoremap <Leader>vc :source ~/.config/nvim/init.vim<CR>:echo "Reloaded .vimrc"<CR>
+" nnoremap <Leader>vc :source ~/.config/nvim/init.vim<CR>:echo "Reloaded .vimrc"<CR>
+
+" Automatically source vimrc on save
+augroup reload_vimrc
+  autocmd!
+  autocmd BufWritePost vimrc source ~/.vimrc
+  " autocmd BufWritePost vimrc AirlineRefresh
+augroup END
 
 " reset highlight
 nnoremap <leader>h :noh<CR>
