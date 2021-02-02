@@ -7,6 +7,9 @@ set lazyredraw
 set termguicolors
 set backspace=indent,eol,start
 set nostartofline " Make j/k respect the columns
+set nowrap           " do not automatically wrap on load
+set formatoptions-=t " do not automatically wrap text when typing
+set clipboard+=unnamedplus
 
 " Map leader switch to space
 nnoremap <SPACE> <Nop>
