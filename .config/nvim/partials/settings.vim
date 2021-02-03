@@ -10,6 +10,8 @@ set nostartofline " Make j/k respect the columns
 set nowrap           " do not automatically wrap on load
 set formatoptions-=t " do not automatically wrap text when typing
 set clipboard+=unnamedplus
+set splitbelow
+set splitright
 
 " Map leader switch to space
 nnoremap <SPACE> <Nop>
@@ -20,6 +22,12 @@ nnoremap <Leader>vc :source ~/.config/nvim/init.vim<CR>:echo "Reloaded .vimrc"<C
 
 " reset highlight
 nnoremap <leader>h :noh<CR>
+
+" split naviation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " quck-scope plugin highlight on button press
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']

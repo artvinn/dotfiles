@@ -45,7 +45,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # use ripgrep in fzf
 if type rg &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_COMMAND='rg --files --hidden'
   export FZF_DEFAULT_OPTS='-m --height 50% --border' # allow multiple selections
 fi
 
