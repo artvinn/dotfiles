@@ -13,6 +13,10 @@ set clipboard+=unnamedplus
 set splitbelow
 set splitright
 
+" persistent undo
+set undodir=~/.cache/nvim/undodir
+set undofile
+
 " Map leader switch to space
 nnoremap <SPACE> <Nop>
 let mapleader = " "
@@ -108,6 +112,10 @@ else
 
   if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
     let g:coc_global_extensions += ['coc-eslint']
+  endif
+
+  if filereadable('.stylelintrc')
+    let g:coc_global_extensions += ['coc-stylelintplus']
   endif
 
   nmap <leader>e :CocCommand explorer<CR>
