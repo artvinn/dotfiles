@@ -100,7 +100,7 @@ else
   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 
   " coc
-  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-svelte', 'coc-css', 'coc-json' ]
+  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-svelte', 'coc-css', 'coc-json', 'coc-explorer' ]
 
   if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
     let g:coc_global_extensions += ['coc-prettier']
@@ -110,8 +110,10 @@ else
     let g:coc_global_extensions += ['coc-eslint']
   endif
 
+  nmap <leader>e :CocCommand explorer<CR>
   nmap <silent> gd <Plug>(coc-definition)
   nmap <leader>rn <Plug>(coc-rename)
+
   " Use K to show documentation in preview window.
   nnoremap <silent> K :call <SID>show_documentation()<CR>
 
