@@ -1,7 +1,7 @@
 source $HOME/.config/nvim/partials/plugins.vim
 
 filetype plugin indent on
-syntax enable
+syntax on
 
 let g:python3_host_prog = '/usr/local/bin/python3'
 

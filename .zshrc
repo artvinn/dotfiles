@@ -13,7 +13,7 @@ HISTFILE=$HOME/.zsh_history
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
 
-export EDITOR=/usr/bin/vim
+export EDITOR=nvim
 
 # export locales
 export LANG="en_US.UTF-8"
