@@ -27,13 +27,12 @@ colors:
     cyan:    '0x9aedfe'
     white:   '0xf1f1f0'
 
-size: 13.0
-
 offset:
   x: 0
   y: 0
 
 font:
+  size: 12.0
   normal:
     family: Hack Nerd Font Mono
     style: Regular
