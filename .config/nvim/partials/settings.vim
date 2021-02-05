@@ -76,12 +76,13 @@ else
   set expandtab
   set shiftwidth=2
   set softtabstop=2
-  set tabstop=4
+  set tabstop=2
   set pyxversion=3
   set updatetime=300
   set shortmess+=c
   set signcolumn=yes
-  set cmdheight=2
+  set noshowmode
+  " set cmdheight=2
   " Map jj to ESC
   imap jj <Esc>
   " Map Control-C to ESC

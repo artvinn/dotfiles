@@ -24,9 +24,9 @@ if dein#load_state('~/.cache/dein')
     call dein#add('joshdick/onedark.vim')
     " Better Syntax Support
     call dein#add('sheerun/vim-polyglot')
+
     " Powerline
-    call dein#add('vim-airline/vim-airline')
-    call dein#add('vim-airline/vim-airline-themes')
+    call dein#add('itchyny/lightline.vim')
 
     " fzf fuzzy search
     call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
@@ -39,6 +39,12 @@ if dein#load_state('~/.cache/dein')
     call dein#add('evanleck/vim-svelte')
     call dein#add('pangloss/vim-javascript')
     call dein#add('HerringtonDarkholme/yats.vim')
+
+    " editorconfig
+    call dein#add('editorconfig/editorconfig-vim')
+
+    " filetype icons
+    call dein#add('ryanoasis/vim-devicons')
 
     if !has('nvim')
       call dein#add('roxma/nvim-yarp')

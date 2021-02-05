@@ -35,13 +35,12 @@ offset:
 
 font:
   normal:
-    family: 'Hack'
+    family: Hack Nerd Font Mono
     style: Regular
   bold:
-    family: Hack
+    family: Hack Nerd Font Mono
     style: Bold
-
   italic:
-    family: Hack
+    family: Hack Nerd Font Mono
     style: Italic
 
