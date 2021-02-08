@@ -22,6 +22,7 @@ if dein#load_state('~/.cache/dein')
   if !exists('g:vscode')
     " Themes
     call dein#add('morhetz/gruvbox')
+
     " Better Syntax Support
     call dein#add('sheerun/vim-polyglot')
 
