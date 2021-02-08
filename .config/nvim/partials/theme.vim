@@ -1,5 +1,5 @@
 " Switch to whatever colorscheme you like
-colorscheme onedark
+colorscheme gruvbox
 
 " gray comments
 hi Comment guifg=#5C6370 ctermfg=59
