@@ -1,0 +1,45 @@
+{
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "coc.preferences.formatOnSaveFiletypes": ["markdown", "javascript", "typescript", "json", "jsonc", "svelte", "css"],
+
+  "explorer.width": 30,
+  "explorer.file.showHiddenFiles": true,
+  "explorer.file.autoReveal": false,
+  "explorer.icon.enableVimDevicons": true,
+  "explorer.icon.enableNerdfont": true,
+
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20,
+
+  "explorer.keyMappings": {
+    "s": "open:vsplit",
+    "mm": "rename",
+    "mc": "copyFile",
+    "C": "copyFile"
+    /* "md": "delete", */
+    /* "D": "delete", */
+    /* "ma": "addFile", */
+    /* "mA": "addDirectory" */
+  },
+
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  "javascript.suggestionActions.enabled": true,
+  "typescript.suggestionActions.enabled": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelintplus.autoFixOnSave": true,
+  "stylelintplus.cssInJs": true,
+  "stylelintplus.filetypes": ["css", "svelte"],
+
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+  "prettier.disableSuccessMessage": true,
+
+  "diagnostic.errorSign": "x",
+  "diagnostic.warningSign": "!",
+  "diagnostic.infoSign": "•",
+  "diagnostic.hintSign": "•"
+}

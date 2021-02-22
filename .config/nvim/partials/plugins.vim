@@ -21,7 +21,7 @@ if dein#load_state('~/.cache/dein')
 
   if !exists('g:vscode')
     " Themes
-    call dein#add('morhetz/gruvbox')
+    call dein#add('joshdick/onedark.vim')
 
     " Better Syntax Support
     call dein#add('sheerun/vim-polyglot')
@@ -46,6 +46,9 @@ if dein#load_state('~/.cache/dein')
 
     " filetype icons
     call dein#add('ryanoasis/vim-devicons')
+
+    " emmet
+    call dein#add('mattn/emmet-vim')
 
     if !has('nvim')
       call dein#add('roxma/nvim-yarp')

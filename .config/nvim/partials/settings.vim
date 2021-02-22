@@ -105,7 +105,7 @@ else
   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 
   " coc
-  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-svelte', 'coc-css', 'coc-json', 'coc-explorer' ]
+  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-svelte', 'coc-css', 'coc-json', 'coc-explorer', 'coc-rust-analyzer']
 
   if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
     let g:coc_global_extensions += ['coc-prettier']
@@ -135,5 +135,9 @@ else
       execute '!' . &keywordprg . " " . expand('<cword>')
     endif
   endfunction
+
+  " emmet
+  let g:user_emmet_leader_key=','
+  let g:user_emmet_mode='i'
 
 endif
