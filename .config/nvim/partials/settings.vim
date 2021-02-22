@@ -13,6 +13,9 @@ set clipboard+=unnamedplus
 set splitbelow
 set splitright
 
+" dein package manager auto recache
+let g:dein#auto_recache = 1
+
 " persistent undo
 set undodir=~/.cache/nvim/undodir
 set undofile

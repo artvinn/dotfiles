@@ -49,6 +49,9 @@ if dein#load_state('~/.cache/dein')
 
     " emmet
     call dein#add('mattn/emmet-vim')
+    
+    " gitgutter
+    call dein#add('airblade/vim-gitgutter')
 
     if !has('nvim')
       call dein#add('roxma/nvim-yarp')
