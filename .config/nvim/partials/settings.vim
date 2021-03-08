@@ -12,6 +12,7 @@ set formatoptions-=t " do not automatically wrap text when typing
 set clipboard+=unnamedplus
 set splitbelow
 set splitright
+set shortmess+=c
 
 " dein package manager auto recache
 let g:dein#auto_recache = 1
@@ -28,7 +29,7 @@ let mapleader = " "
 nnoremap <Leader>vc :source ~/.config/nvim/init.vim<CR>:echo "Reloaded .vimrc"<CR>
 
 " reset highlight
-nnoremap <leader>h :noh<CR>
+nnoremap <silent><esc> :noh<CR>
 
 " split naviation
 nnoremap <C-J> <C-W><C-J>
@@ -36,14 +37,14 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" quck-scope plugin highlight on button press
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
 " highlight yanked area
 augroup highlight_yank
   autocmd!
-  au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=700}
+  au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350}
 augroup END
+
+" quck-scope plugin highlight on button press
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 if exists('g:vscode')
   " VSCode extension
@@ -54,11 +55,17 @@ if exists('g:vscode')
   omap gc  <Plug>VSCodeCommentary
   nmap gcc <Plug>VSCodeCommentaryLine
 
-  highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-  highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-
   " keybindings
   nnoremap <leader>s <Cmd>call VSCodeNotify('workbench.action.files.save')<CR>
+  nnoremap <silent>K <Cmd>call VSCodeNotify('editor.action.showHover')<CR>
+  nmap <silent> gd <Cmd>call VSCodeNotify('editor.action.peekDefinition')<CR>
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gr <Plug>(coc-references)
+
+
+  " quick-scope char colors
+  highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 else
   " ordinary neovim
 
@@ -82,10 +89,10 @@ else
   set tabstop=2
   set pyxversion=3
   set updatetime=300
-  set shortmess+=c
   set signcolumn=yes
   set noshowmode
   " set cmdheight=2
+ 
   " Map jj to ESC
   imap jj <Esc>
   " Map Control-C to ESC
@@ -124,6 +131,8 @@ else
 
   nmap <leader>e :CocCommand explorer<CR>
   nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gr <Plug>(coc-references)
   nmap <leader>rn <Plug>(coc-rename)
 
   " Use K to show documentation in preview window.
