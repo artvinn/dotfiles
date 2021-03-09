@@ -37,7 +37,6 @@ if dein#load_state('~/.cache/dein')
     call dein#add('neoclide/coc.nvim', { 'branch': 'release' })
 
     " JS, TS
-    call dein#add('evanleck/vim-svelte')
     call dein#add('pangloss/vim-javascript')
     call dein#add('HerringtonDarkholme/yats.vim')
 

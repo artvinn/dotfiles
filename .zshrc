@@ -2,6 +2,8 @@ ZSH=~/.oh-my-zsh/
 ZSH_DISABLE_COMPFIX="true"
 ZSH_TMUX_AUTOSTART=true
 
+export PATH="$HOME/.cargo/bin:$PATH"
+
 # alias
 alias vim="nvim"
 

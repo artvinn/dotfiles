@@ -87,8 +87,7 @@ else
   set updatetime=300
   set signcolumn=yes
   set noshowmode
-  " set cmdheight=2
- 
+  
   " Map jj to ESC
   imap jj <Esc>
   " Map Control-C to ESC
@@ -111,7 +110,8 @@ else
   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 
   " coc
-  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-svelte', 'coc-css', 'coc-json', 'coc-explorer', 'coc-rust-analyzer']
+  autocmd FileType typescript let b:coc_root_patterns = ['.git', '.env']
+  let g:coc_global_extensions = [ 'coc-tsserver', 'coc-css', 'coc-json', 'coc-explorer', 'coc-rust-analyzer']
 
   if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
     let g:coc_global_extensions += ['coc-prettier']
@@ -143,9 +143,5 @@ else
       execute '!' . &keywordprg . " " . expand('<cword>')
     endif
   endfunction
-
-  " emmet
-  let g:user_emmet_leader_key=','
-  let g:user_emmet_mode='i'
 
 endif
