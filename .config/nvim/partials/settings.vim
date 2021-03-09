@@ -58,10 +58,6 @@ if exists('g:vscode')
   " keybindings
   nnoremap <leader>s <Cmd>call VSCodeNotify('workbench.action.files.save')<CR>
   nnoremap <silent>K <Cmd>call VSCodeNotify('editor.action.showHover')<CR>
-  nmap <silent> gd <Cmd>call VSCodeNotify('editor.action.peekDefinition')<CR>
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gr <Plug>(coc-references)
-
 
   " quick-scope char colors
   highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
