@@ -11,7 +11,7 @@ return require('packer').startup(function()
 
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
-
+  use 'nvim-lua/plenary.nvim'
 
   use {
     'kyazdani42/nvim-tree.lua',
@@ -28,11 +28,14 @@ return require('packer').startup(function()
   }
 
   use {
-    'neovim/nvim-lspconfig',
-    config = function()
-      local lsp = require 'lspconfig'
+    'jose-elias-alvarez/null-ls.nvim',
+    requires = {'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig'}
+  }
 
-      require'lspconfig'.tsserver.setup{}
+  use {
+    'neovim/nvim-lspconfig',
+    requires = {'jose-elias-alvarez/nvim-lsp-ts-utils', 'jose-elias-alvarez/null-ls.nvim'},
+    config = function()
       require'lspconfig'.html.setup{}
       require'lspconfig'.cssls.setup{}
       require'lspconfig'.jsonls.setup{}
@@ -44,73 +47,71 @@ return require('packer').startup(function()
         }
       }
 
-      local on_attach = function(client, bufnr)
+      local null_ls = require("null-ls")
+      local sources = {
+        null_ls.builtins.formatting.prettierd.with({
+          condition = function(utils)
+            return utils.root_has_file(".prettierrc.js")
+          end
+        }),
+        null_ls.builtins.diagnostics.eslint_d,
+        null_ls.builtins.diagnostics.write_good,
+        null_ls.builtins.diagnostics.markdownlint,
+        null_ls.builtins.code_actions.gitsigns,
+      }
+
+      local on_attach_common = function(client, bufnr)
         if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_command [[augroup Format]]
-          vim.api.nvim_command [[autocmd! * <buffer>]]
-          vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-          vim.api.nvim_command [[augroup END]]
+          vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
         end
       end
 
-      require'lspconfig'.diagnosticls.setup {
-        on_attach = on_attach,
-        filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
-        init_options = {
-          linters = {
-            eslint = {
-              command = 'eslint_d',
-              rootPatterns = { '.git' },
-              debounce = 100,
-              args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
-              sourceName = 'eslint_d',
-              parseJson = {
-                errorsRoot = '[0].messages',
-                line = 'line',
-                column = 'column',
-                endLine = 'endLine',
-                endColumn = 'endColumn',
-                message = '[eslint] ${message} [${ruleId}]',
-                security = 'severity'
-              },
-              securities = {
-                [2] = 'error',
-                [1] = 'warning'
-              }
+      null_ls.config({ sources = sources })
+      require('lspconfig')['null-ls'].setup({ on_attach = on_attach_common })
+
+      require'lspconfig'.tsserver.setup {
+        filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+        on_attach = function(client, bufnr)
+          -- disable tsserver formatting
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
+
+          local ts_utils = require("nvim-lsp-ts-utils")
+
+          on_attach_common(client, bufnr)
+
+          ts_utils.setup {
+            debug = false,
+            disable_commands = false,
+            enable_import_on_completion = true,
+            import_all_timeout = 5000, -- ms
+
+            -- eslint
+            eslint_enable_code_actions = true,
+            eslint_enable_disable_comments = true,
+            eslint_bin = "eslint_d",
+            eslint_config_fallback = nil,
+            eslint_enable_diagnostics = true,
+
+            -- formatting
+            enable_formatting = true,
+            formatter = "prettierd",
+            formatter_opts = {
+              condition = function(utils)
+                return utils.root_has_file(".prettierc.js")
+              end,
             },
-          },
-          filetypes = {
-            javascript = 'eslint',
-            javascriptreact = 'eslint',
-            typescript = 'eslint',
-            typescriptreact = 'eslint',
-          },
-          formatters = {
-            eslint_d = {
-              command = 'eslint_d',
-              args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
-              rootPatterns = { '.git' },
-              requiredFiles = { '.eslintrc', '.eslintrc.json' }
-            },
-            prettier = {
-              command = 'prettier',
-              args = { '--stdin-filepath', '%filename' },
-              requiredFiles = { '.prettierrc.js', '.prettierrc'  }
-            }
-          },
-          formatFiletypes = {
-            css = 'prettier',
-            javascript = 'prettier',
-            javascriptreact = 'prettier',
-            json = 'prettier',
-            scss = 'prettier',
-            less = 'prettier',
-            typescript = 'prettier',
-            typescriptreact = 'prettier',
-            json = 'prettier',
-            markdown = 'prettier',
+
+            -- update imports on file move
+            update_imports_on_move = true,
+            require_confirmation_on_move = false,
+            watch_dir = nil,
+
+            filter_out_diagnostics_by_code = { 80001 },
           }
-        }
+
+          ts_utils.setup_client(client)
+        end
       }
     end
   }
