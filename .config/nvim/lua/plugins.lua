@@ -47,72 +47,7 @@ return require('packer').startup(function()
         }
       }
 
-      local null_ls = require("null-ls")
-      local sources = {
-        null_ls.builtins.formatting.prettierd.with({
-          condition = function(utils)
-            return utils.root_has_file(".prettierrc.js")
-          end
-        }),
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.diagnostics.write_good,
-        null_ls.builtins.diagnostics.markdownlint,
-        null_ls.builtins.code_actions.gitsigns,
-      }
-
-      local on_attach_common = function(client, bufnr)
-        if client.resolved_capabilities.document_formatting then
-          vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-        end
-      end
-
-      null_ls.config({ sources = sources })
-      require('lspconfig')['null-ls'].setup({ on_attach = on_attach_common })
-
-      require'lspconfig'.tsserver.setup {
-        filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-        on_attach = function(client, bufnr)
-          -- disable tsserver formatting
-          client.resolved_capabilities.document_formatting = false
-          client.resolved_capabilities.document_range_formatting = false
-
-          local ts_utils = require("nvim-lsp-ts-utils")
-
-          on_attach_common(client, bufnr)
-
-          ts_utils.setup {
-            debug = false,
-            disable_commands = false,
-            enable_import_on_completion = true,
-            import_all_timeout = 5000, -- ms
-
-            -- eslint
-            eslint_enable_code_actions = true,
-            eslint_enable_disable_comments = true,
-            eslint_bin = "eslint_d",
-            eslint_config_fallback = nil,
-            eslint_enable_diagnostics = true,
-
-            -- formatting
-            enable_formatting = true,
-            formatter = "prettierd",
-            formatter_opts = {
-              condition = function(utils)
-                return utils.root_has_file(".prettierc.js")
-              end,
-            },
-
-            -- update imports on file move
-            update_imports_on_move = true,
-            require_confirmation_on_move = false,
-            watch_dir = nil,
-
-            filter_out_diagnostics_by_code = { 80001 },
-          }
-
-          ts_utils.setup_client(client)
-        end
-      }
+      require('lsp')
     end
   }
 

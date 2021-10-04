@@ -3,13 +3,8 @@ local cmd = vim.cmd
 local fn = vim.fn
 local g = vim.g
 local opt = vim.opt
-
--- key map helper function --
-local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
+local utils = require('utils')
+local map = utils.map
 
 ---------------------------------- OPTIONS ----------------------------------
 local indent = 2
@@ -64,7 +59,6 @@ g.mapleader = ' '
 -- LSP (lspconfig)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-map('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<cr>')
 map('n', '<leader>ld', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>')
 map('n', '<leader>k', '<cmd>lua vim.lsp.buf.hover()<cr>')
 map('n', '<leader>h', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
