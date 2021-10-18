@@ -12,10 +12,12 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
   use 'tpope/vim-surround'
   use 'nvim-lua/plenary.nvim'
+  use 'hrsh7th/vim-vsnip'
 
   use {
     'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons'
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function() require'nvim-tree'.setup {} end
   }
 
   use {
@@ -53,13 +55,18 @@ return require('packer').startup(function()
 
   use {
     'hrsh7th/nvim-cmp',
-    requires = {'hrsh7th/cmp-nvim-lsp', 'windwp/nvim-autopairs'},
+    requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'hrsh7th/cmp-vsnip', 'windwp/nvim-autopairs'},
     config = function() 
       require('cmp_nvim_lsp').setup()
       local cmp = require('cmp')
 
       cmp.setup {
         min_length = 0,
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
+        },
         mapping = {
           ["<S-Tab>"] = cmp.mapping.select_prev_item(),
           ["<Tab>"] = cmp.mapping.select_next_item(),
@@ -69,7 +76,8 @@ return require('packer').startup(function()
           ["<C-e>"] = cmp.mapping.close(),
         },
         sources = {
-          {name = "nvim_lsp"}
+          { name = "nvim_lsp" },
+          { name = 'path' }
         }
       }
 
