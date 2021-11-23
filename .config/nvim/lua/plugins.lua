@@ -13,11 +13,20 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'nvim-lua/plenary.nvim'
   use 'hrsh7th/vim-vsnip'
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup{}
+    end
+  }
 
   use {
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'nvim-tree'.setup {} end
+    config = function()
+      vim.g.nvim_tree_gitignore = 1;
+      require'nvim-tree'.setup {}
+    end
   }
 
   use {
@@ -38,9 +47,19 @@ return require('packer').startup(function()
     'neovim/nvim-lspconfig',
     requires = {'jose-elias-alvarez/nvim-lsp-ts-utils', 'jose-elias-alvarez/null-ls.nvim'},
     config = function()
-      require'lspconfig'.html.setup{}
-      require'lspconfig'.cssls.setup{}
-      require'lspconfig'.jsonls.setup{}
+      -- nvim-cmp supports additional completion capabilities
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      require'lspconfig'.html.setup{
+        filetypes = {"html", "njk"}
+      }
+
+      require'lspconfig'.cssls.setup{
+        capabilities = capabilities,
+      }
+
       require'lspconfig'.rust_analyzer.setup{
         settings = {
           ["rust-analyzer"] = {
@@ -49,16 +68,31 @@ return require('packer').startup(function()
         }
       }
 
+      require'lspconfig'.jsonls.setup{
+        on_attach = function(client)
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
+        end
+      }
+
+      require'lspconfig'.svelte.setup{
+        on_attach = function(client)
+          client.resolved_capabilities.document_formatting = false
+          client.resolved_capabilities.document_range_formatting = false
+        end
+      }
+
       require('lsp')
     end
   }
 
   use {
     'hrsh7th/nvim-cmp',
-    requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'hrsh7th/cmp-vsnip', 'windwp/nvim-autopairs'},
+    requires = {'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-path', 'hrsh7th/cmp-vsnip', 'windwp/nvim-autopairs', 'onsails/lspkind-nvim'},
     config = function() 
       require('cmp_nvim_lsp').setup()
       local cmp = require('cmp')
+      local lspkind = require('lspkind')
 
       cmp.setup {
         min_length = 0,
@@ -68,27 +102,45 @@ return require('packer').startup(function()
           end,
         },
         mapping = {
-          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-          ["<Tab>"] = cmp.mapping.select_next_item(),
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          -- ["<S-Space>"] = cmp.mapping.complete(), -- not sure what it does?
+          ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end,
+          ['<S-Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            else
+              fallback()
+            end
+          end,
+          ['<C-Space>'] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.close(),
+          ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          })
+        },
+        formatting = {
+          format = lspkind.cmp_format({ with_text = true, maxwidth = 50 })
         },
         sources = {
           { name = "nvim_lsp" },
-          { name = 'path' }
+          { name = 'path' },
+          { name = 'vsnip' }
         }
       }
 
-      -- autopairs needs to be setup after cmp
-      require('nvim-autopairs').setup({
-        enable_check_bracket_line = false
-      })
-      require("nvim-autopairs.completion.cmp").setup({
-        map_cr = true, --  map <CR> on insert mode
-        map_complete = true, -- it will auto insert `(` after select function or method item
-      })
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      cmp.event:on( 
+        'confirm_done',
+        cmp_autopairs.on_confirm_done(
+          { map_char = { tex = '{' } }
+        )
+      )
+
     end
   }
 
