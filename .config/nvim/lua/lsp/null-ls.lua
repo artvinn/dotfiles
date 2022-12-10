@@ -10,9 +10,10 @@ local eslint_opts = {
 
 local sources = {
   null_ls.builtins.formatting.prettierd.with({
+    -- prefer_local = "node_modules/.bin",
     condition = function(utils)
-      return utils.root_has_file(".prettierrc.js") or utils.root_has_file(".prettierrc.json")
-    end
+      return utils.root_has_file({ "prettierrc.json", ".prettierrc" })
+    end,
   }),
   null_ls.builtins.diagnostics.eslint_d.with(eslint_opts),
   -- null_ls.builtins.diagnostics.write_good,
@@ -21,11 +22,11 @@ local sources = {
 
 local M = {}
 M.setup = function(on_attach)
-    null_ls.config({
-        debug = true,
-        sources = sources,
+    null_ls.setup({
+      -- debug = true,
+      sources = sources,
+      on_attach = on_attach 
     })
-    require("lspconfig")["null-ls"].setup({ on_attach = on_attach })
 end
 
 return M

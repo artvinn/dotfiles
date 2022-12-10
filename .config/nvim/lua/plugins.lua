@@ -24,17 +24,26 @@ return require('packer').startup(function()
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
-      vim.g.nvim_tree_gitignore = 1;
-      require'nvim-tree'.setup {}
+      require'nvim-tree'.setup {
+        git = {
+          enable = true,
+          ignore = true
+        }
+      }
     end
   }
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
     config = function()
       local ts = require 'nvim-treesitter.configs'
-      ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
+      ts.setup {
+        ensure_installed = 'all',
+        highlight = {
+          enable = true,
+          disable = { "html" }
+        }
+      }
     end
   }
 
@@ -49,8 +58,11 @@ return require('packer').startup(function()
     config = function()
       -- nvim-cmp supports additional completion capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      require'lspconfig'.tsserver.setup{}
+      require'lspconfig'.pylsp.setup{}
 
       require'lspconfig'.html.setup{
         filetypes = {"html", "njk"}

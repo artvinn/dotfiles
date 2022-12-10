@@ -15,13 +15,13 @@ local ts_utils_settings = {
   eslint_enable_diagnostics = true,
 
   -- formatting
-  enable_formatting = true,
-  formatter = "prettierd",
-  formatter_opts = {
-    condition = function(utils)
-      return utils.root_has_file(".prettierrc.js") or utils.root_has_file(".prettierrc.json")
-    end,
-  },
+  enable_formatting = false,
+  -- formatter = "prettierd",
+  -- formatter_opts = {
+  --   condition = function(utils)
+  --     return utils.root_has_file(".prettierrc.js") or utils.root_has_file(".prettierrc.json") or utils.root_has_file(".prettierrc")
+  --   end,
+  -- },
 
   -- update imports on file move
   update_imports_on_move = true,

@@ -47,6 +47,7 @@ opt.undofile = true                     -- allow to undo changes after buffer ha
 opt.ttimeout = true                     -- prevent delay when chaning modes
 opt.ttimeoutlen = 50                    
 opt.updatetime = 100                    -- speed up screen updating
+opt.ch = 0
 
 -- highlight yanked area
 cmd 'au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350}'
@@ -59,7 +60,7 @@ g.mapleader = ' '
 -- LSP (lspconfig)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-map('n', '<leader>ld', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>')
+map('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float()<cr>')
 map('n', '<leader>k', '<cmd>lua vim.lsp.buf.hover()<cr>')
 map('n', '<leader>h', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
@@ -68,12 +69,10 @@ map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
-map('n', '<leader>fd', '<cmd>Telescope file_browser<cr>')
-map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>')
-map('n', '<leader>ca', '<cmd>Telescope lsp_code_actions<cr>')
+map('n', '<leader>fr', '<cmd>Telescope registers<cr>')
 
 -- reset search highlight
-map('n', '<ESC>', '<cmd>noh<cr>')
+map('n', '<cr>', '<cmd>noh<cr><cr>')
 
 -- split navigation
 map('n', '<C-J>', '<C-W><C-J>')
