@@ -10,7 +10,6 @@ local eslint_opts = {
 
 local sources = {
   null_ls.builtins.formatting.prettierd.with({
-    -- prefer_local = "node_modules/.bin",
     condition = function(utils)
       return utils.root_has_file({ "prettierrc.json", ".prettierrc" })
     end,

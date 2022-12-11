@@ -1,13 +1,24 @@
 local null_ls = require("lsp.null-ls")
-local tsserver = require("lsp.tsserver")
 
 local border_opts = { border = "single", focusable = false, scope = "line" }
 
 vim.diagnostic.config({ virtual_text = false, float = border_opts })
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
+  -- FORMAT ON SAVE
+  if client.supports_method("textDocument/formatting") then
+    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({
+            timeout_ms = 5000,
+            bufnr = bufnr
+          })
+        end
+    })
   end
 end
 
@@ -28,5 +39,4 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 -- end
 
-tsserver.setup(on_attach)
 null_ls.setup(on_attach)

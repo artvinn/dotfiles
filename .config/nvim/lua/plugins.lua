@@ -14,6 +14,47 @@ return require('packer').startup(function()
   use 'nvim-lua/plenary.nvim'
   use 'hrsh7th/vim-vsnip'
   use {
+    'takac/vim-hardtime',
+    config = function()
+      vim.g.hardtime_default_on = 1
+      vim.g.hardtime_timeout = 800
+    end
+  }
+
+  use {
+    'kevinhwang91/nvim-hlslens',
+    config = function()
+      require('hlslens').setup({
+        calm_down = true,
+        nearest_float_when = 'auto',
+        float_shadow_blend = 30
+      })
+
+      local kopts = {noremap = true, silent = true}
+
+      vim.api.nvim_set_keymap('n', 'n',
+          [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+          kopts)
+      vim.api.nvim_set_keymap('n', 'N',
+          [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+          kopts)
+      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+      vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+    end
+  }
+
+  use {
+    'abecodes/tabout.nvim',
+    config = function()
+      require('tabout').setup {}
+    end
+  }
+
+  use {
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup{}
@@ -49,12 +90,12 @@ return require('packer').startup(function()
 
   use {
     'jose-elias-alvarez/null-ls.nvim',
-    requires = {'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig'}
+    requires = {'nvim-lua/plenary.nvim'}
   }
 
   use {
     'neovim/nvim-lspconfig',
-    requires = {'jose-elias-alvarez/nvim-lsp-ts-utils', 'jose-elias-alvarez/null-ls.nvim'},
+    requires = {'jose-elias-alvarez/null-ls.nvim'},
     config = function()
       -- nvim-cmp supports additional completion capabilities
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -62,6 +103,7 @@ return require('packer').startup(function()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       require'lspconfig'.tsserver.setup{}
+
       require'lspconfig'.pylsp.setup{}
 
       require'lspconfig'.html.setup{
@@ -80,19 +122,8 @@ return require('packer').startup(function()
         }
       }
 
-      require'lspconfig'.jsonls.setup{
-        on_attach = function(client)
-          client.resolved_capabilities.document_formatting = false
-          client.resolved_capabilities.document_range_formatting = false
-        end
-      }
-
-      require'lspconfig'.svelte.setup{
-        on_attach = function(client)
-          client.resolved_capabilities.document_formatting = false
-          client.resolved_capabilities.document_range_formatting = false
-        end
-      }
+      require'lspconfig'.jsonls.setup{}
+      require'lspconfig'.svelte.setup{}
 
       require('lsp')
     end

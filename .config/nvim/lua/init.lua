@@ -41,13 +41,12 @@ opt.mouse = 'a'                         -- allow mouse to be used in neovim
 opt.hlsearch = true                     -- highlight all matches on previous search pattern
 opt.pumheight = 10                      -- pop up menu height
 opt.clipboard = 'unnamedplus'           -- allows neovim to access the system clibpoard
-opt.shortmess:append('c')               -- decrese message size
+opt.shortmess:append('co')               -- decrese message size
 opt.showmode = false                    -- don't show sings like -- INSERT --
 opt.undofile = true                     -- allow to undo changes after buffer has been closed
 opt.ttimeout = true                     -- prevent delay when chaning modes
 opt.ttimeoutlen = 50                    
 opt.updatetime = 100                    -- speed up screen updating
-opt.ch = 0
 
 -- highlight yanked area
 cmd 'au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", timeout=350}'
@@ -72,7 +71,7 @@ map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<leader>fr', '<cmd>Telescope registers<cr>')
 
 -- reset search highlight
-map('n', '<cr>', '<cmd>noh<cr><cr>')
+map('n', '<ESC>', '<cmd>noh<cr>')
 
 -- split navigation
 map('n', '<C-J>', '<C-W><C-J>')
@@ -88,5 +87,8 @@ map('i', 'kj', '<ESC>')
 
 -- alternate way to save
 map('n', '<leader>w', ':w<cr>')
+
+-- format
+map('n', '<leader>fmt', '<cmd>lua vim.lsp.buf.format({ timeout_ms = 5000 })<cr>')
 
 require('plugins')
