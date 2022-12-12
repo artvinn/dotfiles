@@ -80,6 +80,9 @@ return require('packer').startup(function()
       local ts = require 'nvim-treesitter.configs'
       ts.setup {
         ensure_installed = 'all',
+        indent = {
+          enable = true
+        },
         highlight = {
           enable = true,
           disable = { "html" }
