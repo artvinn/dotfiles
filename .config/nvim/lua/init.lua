@@ -35,13 +35,13 @@ opt.tabstop = indent                    -- number of spaces tabs count for
 opt.shiftwidth = indent                 -- size of an indent
 opt.termguicolors = true                -- true color support
 opt.wildmode = {'list', 'longest'}      -- command-line completion mode
-opt.wrap = false                        -- disable line wrap
+opt.wrap = true                         -- disable line wrap
 opt.textwidth = width                   -- maximum width of text
 opt.mouse = 'a'                         -- allow mouse to be used in neovim
 opt.hlsearch = true                     -- highlight all matches on previous search pattern
 opt.pumheight = 10                      -- pop up menu height
 opt.clipboard = 'unnamedplus'           -- allows neovim to access the system clibpoard
-opt.shortmess:append('co')               -- decrese message size
+opt.shortmess:append('co')              -- decrese message size
 opt.showmode = false                    -- don't show sings like -- INSERT --
 opt.undofile = true                     -- allow to undo changes after buffer has been closed
 opt.ttimeout = true                     -- prevent delay when chaning modes
@@ -56,10 +56,22 @@ cmd 'au TextYankPost * silent! lua vim.highlight.on_yank{higroup="IncSearch", ti
 -- map leader to space
 g.mapleader = ' '
 
+map("n", "<Right>", ":vertical resize -2<CR>")
+map("n", "<Left>", ":vertical resize +2<CR>")
+map("n", "<Down>", ":horizontal resize -2<CR>")
+map("n", "<Up>", ":horizontal resize +2<CR>")
+
+-- center cursor when navigating
+map('n', '<C-d>', '<C-d>zz')
+map('n', '<C-u>', '<C-u>zz')
+map('n', '<C-f>', '<C-f>zz')
+map('n', '<C-b>', '<C-b>zz')
+
 -- LSP (lspconfig)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-map('n', '<leader>ld', '<cmd>lua vim.diagnostic.open_float()<cr>')
+map('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<cr>')
+map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
 map('n', '<leader>k', '<cmd>lua vim.lsp.buf.hover()<cr>')
 map('n', '<leader>h', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
@@ -69,6 +81,7 @@ map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<leader>fr', '<cmd>Telescope registers<cr>')
+map('n', '<C-p>', '')
 
 -- reset search highlight
 map('n', '<ESC>', '<cmd>noh<cr>')

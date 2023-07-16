@@ -81,7 +81,6 @@ plugins=(
   git
   asdf
   zsh-z
-  thefuck
   fast-syntax-highlighting
   zsh-autosuggestions
   colored-man-pages
@@ -107,3 +106,7 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+export KERL_CONFIGURE_OPTIONS="--with-wx-config=`brew --prefix wxmaxima`/bin/wx-config \
+                               --without-javac"

@@ -1,4 +1,5 @@
 -- automatically ensure that packer is installed on any machine configuration is cloned to --
+local utils = require('utils')
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -13,37 +14,21 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'nvim-lua/plenary.nvim'
   use 'hrsh7th/vim-vsnip'
+  use 'hrsh7th/vim-vsnip-integ'
+  use 'florinpatrascu/vscode-elixir-snippets'
+
   use {
-    'takac/vim-hardtime',
+    'windwp/nvim-ts-autotag',
     config = function()
-      vim.g.hardtime_default_on = 1
-      vim.g.hardtime_timeout = 800
+      require('nvim-ts-autotag').setup()
     end
   }
 
   use {
-    'kevinhwang91/nvim-hlslens',
+    'takac/vim-hardtime',
     config = function()
-      require('hlslens').setup({
-        calm_down = true,
-        nearest_float_when = 'auto',
-        float_shadow_blend = 30
-      })
-
-      local kopts = {noremap = true, silent = true}
-
-      vim.api.nvim_set_keymap('n', 'n',
-          [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-          kopts)
-      vim.api.nvim_set_keymap('n', 'N',
-          [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-          kopts)
-      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-      vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+      vim.g.hardtime_default_on = 0
+      vim.g.hardtime_timeout = 800
     end
   }
 
@@ -105,12 +90,19 @@ return require('packer').startup(function()
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      require'lspconfig'.tsserver.setup{}
+      require'lspconfig'.astro.setup{}
+
+      require'lspconfig'.tsserver.setup({
+        capabilities = capabilities,
+        on_attach = function(client)
+            client.resolved_capabilities.document_formatting = false
+        end,
+      })
 
       require'lspconfig'.pylsp.setup{}
 
       require'lspconfig'.html.setup{
-        filetypes = {"html", "njk"}
+        filetypes = {"html", "njk", "heex"}
       }
 
       require'lspconfig'.cssls.setup{
@@ -124,6 +116,12 @@ return require('packer').startup(function()
           }
         }
       }
+
+      require('lspconfig').elixirls.setup {
+        cmd = { "/usr/local/lib/elixir-ls/language_server.sh" }
+      }
+
+      require'lspconfig'.prismals.setup{}
 
       require'lspconfig'.jsonls.setup{}
       require'lspconfig'.svelte.setup{}
@@ -230,9 +228,8 @@ return require('packer').startup(function()
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = {
-      "nvim-lua/plenary.nvim"
-    }
+    tag = '0.1.1',
+    requires = { {'nvim-lua/plenary.nvim'} }
   }
 
   use {
