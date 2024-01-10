@@ -117,8 +117,6 @@ require('lazy').setup({
     },
   },
 
-  -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -167,11 +165,14 @@ require('lazy').setup({
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
+
+    main = "ibl",
+
     -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
+    -- See `:help ibl.config`
     opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
+      indent = { char = "┊" },
+      scope = { enabled = false }
     },
   },
 
@@ -496,6 +497,7 @@ local servers = {
   prismals = {},
   jsonls = {},
   svelte = {},
+  astro = {},
 
   lua_ls = {
     Lua = {

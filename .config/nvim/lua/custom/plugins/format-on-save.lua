@@ -14,17 +14,20 @@ return {
         lua = formatters.lsp,
         yaml = formatters.lsp,
         css = formatters.lsp,
-        html = formatters.lsp,
-        json = formatters.lsp,
+        html = formatters.prettierd,
+        json = formatters.prettierd,
+        jsonc = formatters.prettierd,
         javascript = formatters.prettierd,
         markdown = formatters.prettierd,
         typescript = formatters.prettierd,
         typescriptreact = formatters.prettierd,
-        svelte = formatters.prettierd
+        svelte = formatters.prettierd,
+        astro = formatters.lsp
       },
       fallback_formatter = {
         formatters.remove_trailing_whitespace,
         formatters.prettierd,
+        formatters.lsp
       },
     })
   end,
