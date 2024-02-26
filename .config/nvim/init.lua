@@ -102,6 +102,12 @@ require('lazy').setup({
   },
 
   {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  },
+
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -281,7 +287,7 @@ vim.o.splitbelow = true
 vim.o.cursorline = true
 
 -- so that `` is visible in markdown files
-vim.o.conceallevel = true
+vim.o.conceallevel = 0
 
 vim.o.scrolloff = 8;
 vim.o.sidescrolloff = 8;
@@ -471,7 +477,8 @@ local on_attach = function(_, bufnr)
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gd', ":TSToolsGoToSourceDefinition<cr>", '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -486,27 +493,6 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
-  cssls = {},
-  tsserver = {},
-  prismals = {},
-  jsonls = {},
-  svelte = {},
-  astro = {},
-
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-}
-
 -- Setup neovim lua configuration
 require('neodev').setup()
 
@@ -517,19 +503,22 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+require("mason").setup()
+mason_lspconfig.setup {}
+
+require('lspconfig').cssls.setup {}
+require('lspconfig').prismals.setup {}
+require('lspconfig').jsonls.setup {}
+require('lspconfig').svelte.setup {}
+require('lspconfig').astro.setup {}
+require('lspconfig').emmet_language_server.setup {}
+require('lspconfig').lua_ls.setup {
+  Lua = {
+    workspace = { checkThirdParty = false },
+    telemetry = { enable = false },
+  },
 }
 
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-    }
-  end,
-}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -578,5 +567,12 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+
+-- [[ Configure typescript-tools ]]
+require("typescript-tools").setup {
+  capabilities = capabilities,
+  on_attach = on_attach
+}
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

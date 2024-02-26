@@ -13,7 +13,7 @@ return {
       formatter_by_ft = {
         lua = formatters.lsp,
         yaml = formatters.lsp,
-        css = formatters.lsp,
+        css = formatters.prettierd,
         html = formatters.prettierd,
         json = formatters.prettierd,
         jsonc = formatters.prettierd,
