@@ -68,6 +68,7 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
+  'mfussenegger/nvim-lint',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -89,7 +90,7 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim', config = true,  build = ":MasonUpdate" },
+      { 'williamboman/mason.nvim', config = true,  build = ':MasonUpdate' },
       'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
@@ -102,8 +103,8 @@ require('lazy').setup({
   },
 
   {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {},
   },
 
@@ -172,13 +173,13 @@ require('lazy').setup({
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
 
-    main = "ibl",
+    main = 'ibl',
 
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl.config`
     opts = {
-      indent = { char = "┊" },
-      scope = { enabled = false }
+      indent = { char = '┊' },
+      scope = { enabled = false },
     },
   },
 
@@ -236,9 +237,9 @@ vim.o.hlsearch = true
 vim.o.expandtab = true
 
 -- number of spaces tabs count for
-vim.o.tabstop = 2;
+vim.o.tabstop = 2
 -- size of an indent
-vim.o.shiftwidth = 2;
+vim.o.shiftwidth = 2
 
 -- Make line numbers default
 vim.o.number = true
@@ -257,7 +258,7 @@ vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
-vim.o.undodir = vim.fn.stdpath("cache") .. "/undo"
+vim.o.undodir = vim.fn.stdpath 'cache' .. '/undo'
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
@@ -289,8 +290,8 @@ vim.o.cursorline = true
 -- so that `` is visible in markdown files
 vim.o.conceallevel = 0
 
-vim.o.scrolloff = 8;
-vim.o.sidescrolloff = 8;
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
 
 vim.o.encoding = 'utf-8'
 vim.o.fileencoding = 'utf-8'
@@ -309,7 +310,7 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<C-f>', '<C-f>zz')
 vim.keymap.set('n', '<C-b>', '<C-b>zz')
 
-vim.keymap.set('n', '<leader>w', ':w<cr>');
+vim.keymap.set('n', '<leader>w', ':w<cr>')
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -388,7 +389,7 @@ require('nvim-treesitter.configs').setup {
     'astro',
     'dockerfile',
     'scss',
-    'css'
+    'css',
   },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -478,7 +479,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   -- nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gd', ":TSToolsGoToSourceDefinition<cr>", '[G]oto [D]efinition')
+  nmap('gd', ':TSToolsGoToSourceDefinition<cr>', '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -503,7 +504,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
-require("mason").setup()
+require('mason').setup()
 mason_lspconfig.setup {}
 
 require('lspconfig').cssls.setup {}
@@ -511,6 +512,11 @@ require('lspconfig').prismals.setup {}
 require('lspconfig').jsonls.setup {}
 require('lspconfig').svelte.setup {}
 require('lspconfig').astro.setup {}
+require('lspconfig').eslint.setup {
+  settings = {
+    packageManager = 'pnpm'
+  },
+}
 require('lspconfig').emmet_language_server.setup {}
 require('lspconfig').lua_ls.setup {
   Lua = {
@@ -518,7 +524,6 @@ require('lspconfig').lua_ls.setup {
     telemetry = { enable = false },
   },
 }
-
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
@@ -569,9 +574,17 @@ cmp.setup {
 }
 
 -- [[ Configure typescript-tools ]]
-require("typescript-tools").setup {
+require('typescript-tools').setup {
   capabilities = capabilities,
-  on_attach = on_attach
+  on_attach = on_attach,
+}
+
+require('lint').linters_by_ft = {
+  javascript = { 'eslint_d', },
+  typescript = { 'eslint_d', },
+  javascriptreact = { 'eslint_d', },
+  typescriptreact = { 'eslint_d', },
+  svelte = { 'eslint_d' }
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
