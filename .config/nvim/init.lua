@@ -514,7 +514,7 @@ require('lspconfig').svelte.setup {}
 require('lspconfig').astro.setup {}
 require('lspconfig').eslint.setup {
   settings = {
-    packageManager = 'pnpm'
+    packageManager = 'npm'
   },
 }
 require('lspconfig').emmet_language_server.setup {}
