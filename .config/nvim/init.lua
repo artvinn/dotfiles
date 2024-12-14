@@ -525,6 +525,15 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          -- not needed as diagnostics are provided by nvim-lint, see linting.lua
+          ['eslint'] = function()
+            require('lspconfig').eslint.setup {
+              on_attach = function(client)
+                client.server_capabilities.diagnosticProvider = false -- Disable diagnostics
+              end,
+              -- Optionally include any other eslint-specific configuration here
+            }
+          end,
         },
       }
     end,
