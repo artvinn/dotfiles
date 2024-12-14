@@ -782,7 +782,7 @@ require('lazy').setup({
 })
 
 -- CUSTOM
-vim.keymap.set('n', '<leader>e', ':Triptych<CR>', { desc = 'Open triptych file viewver' })
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'NvimTreeToggle' })
 
 -- number of spaces tabs count for
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
