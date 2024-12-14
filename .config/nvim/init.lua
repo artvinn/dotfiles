@@ -510,10 +510,9 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'eslint-lsp',
         'eslint_d',
         'prettierd',
-        'prettier'
+        'prettier',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -529,7 +528,7 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
-          -- not needed as diagnostics are provided by nvim-lint, see linting.lua
+          -- -- not needed as diagnostics are provided by nvim-lint, see linting.lua
           ['eslint'] = function()
             require('lspconfig').eslint.setup {
               on_attach = function(client)
@@ -598,6 +597,10 @@ require('lazy').setup({
         --
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
+          ['<CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+          },
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               local entries = cmp.get_entries()
