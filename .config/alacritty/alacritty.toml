@@ -1,0 +1,45 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "#82878b"
+blue = "#72cce8"
+cyan = "#78cee9"
+green = "#a2e57b"
+magenta = "#baa0f8"
+red = "#f76c7c"
+white = "#e1e2e3"
+yellow = "#e3d367"
+
+[colors.normal]
+black = "#1c1e1f"
+blue = "#72cce8"
+cyan = "#78cee9"
+green = "#a2e57b"
+magenta = "#baa0f8"
+red = "#f76c7c"
+white = "#e1e2e3"
+yellow = "#e3d367"
+
+[colors.primary]
+background = "#273136"
+foreground = "#e1e2e3"
+
+[font]
+size = 14
+
+[font.bold]
+family = "Hack Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "Hack Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+style = "Regular"
+
+[font.offset]
+x = 0
+y = 0
