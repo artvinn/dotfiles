@@ -751,12 +751,6 @@ vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>w', ':w<cr>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 
--- split navigation
-vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { desc = 'Move down' })
-vim.keymap.set('n', '<C-K>', '<C-W><C-K>', { desc = 'Move up' })
-vim.keymap.set('n', '<C-L>', '<C-W><C-L>', { desc = 'Move right' })
-vim.keymap.set('n', '<C-H>', '<C-W><C-H>', { desc = 'Move left' })
-
 -- split creation
 vim.keymap.set('n', '<leader>sh', '"<C-w>s', { desc = 'Split horizontal' })
 vim.keymap.set('n', '<leader>sv', '<C-w>v', { desc = 'Split horizontal' })

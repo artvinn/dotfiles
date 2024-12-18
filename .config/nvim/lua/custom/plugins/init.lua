@@ -6,9 +6,6 @@ return {
   -- Disables search highlighting on cursor move
   'romainl/vim-cool',
 
-  -- Move between Vim and Tmux splits
-  'christoomey/vim-tmux-navigator',
-
   -- Add indentation guides even on blank lines
   {
     'lukas-reineke/indent-blankline.nvim',
