@@ -751,16 +751,5 @@ vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open float
 vim.keymap.set('n', '<leader>w', ':w<cr>', { desc = 'Save buffer' })
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, { desc = 'Hover Documentation' })
 
--- split creation
-vim.keymap.set('n', '<leader>sh', '"<C-w>s', { desc = 'Split horizontal' })
-vim.keymap.set('n', '<leader>sv', '<C-w>v', { desc = 'Split horizontal' })
-vim.keymap.set('n', '<leader>sv', '<C-w>=', { desc = 'Split horizontal' })
-vim.keymap.set('n', '<Leader>sx', ':close<CR>', { desc = 'Close split', silent = true })
-
-vim.keymap.set('n', '<C-Up>', ':resize +2<CR>', { silent = true }) -- Increase height
-vim.keymap.set('n', '<C-Down>', ':resize -2<CR>', { silent = true }) -- Decrease height
-vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { silent = true }) -- Decrease width
-vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { silent = true }) -- Increase width
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
