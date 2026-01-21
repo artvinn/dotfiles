@@ -27,11 +27,8 @@ return {
     -- eslint --fix, and run LSP lint
     vim.keymap.set('n', '<leader>lf', function()
       vim.cmd 'echohl WarningMsg | echo "Running eslint --fix..." | echohl None'
-      vim.cmd 'silent! EslintFixAll'
-      vim.schedule(function()
-        require('lint').try_lint() -- Run nvim-lint
-        vim.cmd 'echo ""'
-      end)
+      vim.cmd 'silent! LspEslintFixAll'
+      vim.cmd 'echo ""'
     end, { desc = 'eslint fix and lint', silent = true })
   end,
 }
