@@ -53,7 +53,14 @@ return { -- Autoformat
       }
     end,
     -- Customize formatters
-    formatters = {},
+    formatters = {
+      prettier = {
+        require_cwd = true,
+      },
+      prettierd = {
+        require_cwd = true,
+      },
+    },
   },
   init = function()
     -- If you want the formatexpr, here is the place to set it
